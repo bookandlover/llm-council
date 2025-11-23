@@ -131,7 +131,7 @@ GOOGLE_API_KEY=AIza...
 COUNCIL_MODELS = [
     "openai/gpt-4o",  # OpenAI GPT-4o
     "google/gemini-2.0-flash-exp",  # Google Gemini
-    "anthropic/claude-3-5-sonnet-20241022",  # Anthropic Claude 3.5 Sonnet
+    "anthropic/claude-sonnet-4.5",  # Anthropic Claude Sonnet 4.5
 ]
 
 CHAIRMAN_MODEL = "google/gemini-2.0-flash-exp"
@@ -139,7 +139,7 @@ CHAIRMAN_MODEL = "google/gemini-2.0-flash-exp"
 
 **可用的模型标识符格式：**
 - OpenAI: `openai/gpt-4o`, `openai/gpt-4o-mini`, `openai/gpt-4-turbo` 等
-- Anthropic: `anthropic/claude-3-5-sonnet-20241022`, `anthropic/claude-3-5-haiku-20241022`, `anthropic/claude-3-opus-20240229` 等
+- Anthropic: `anthropic/claude-sonnet-4.5`, `anthropic/claude-opus-4`, `anthropic/claude-haiku-4` 等
 - Google: `google/gemini-2.0-flash-exp`, `google/gemini-1.5-pro`, `google/gemini-1.5-flash` 等
 
 **注意：**
@@ -331,7 +331,7 @@ llm-council/
 
 1. **并发处理**: 项目已使用异步并发查询多个 LLM，充分利用网络 IO
 2. **模型选择**: 根据需求平衡速度和质量（可以混合使用快速和高质量模型）
-   - 快速模型：`gpt-4o-mini`, `gemini-2.0-flash-exp`, `claude-haiku-3.5`
+   - 快速模型：`gpt-4o-mini`, `gemini-2.0-flash-exp`, `claude-haiku-4`
    - 高质量模型：`gpt-4o`, `gemini-1.5-pro`, `claude-sonnet-4.5`
 3. **网络**: 确保稳定的互联网连接，各提供商 API 响应时间不同
 
