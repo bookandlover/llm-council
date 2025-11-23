@@ -15,7 +15,8 @@ LLM Council 是一个多 LLM 协作问答系统，包含三个阶段：
 - Python 3.10 或更高版本
 - Node.js 16.x 或更高版本
 - npm 或 yarn
-- 互联网连接（用于访问 OpenRouter API）
+- 互联网连接（用于访问各 LLM 提供商的原生 API）
+- OpenAI、Anthropic 和 Google AI 的 API 密钥
 
 ## 详细部署步骤
 
@@ -86,21 +87,41 @@ cd /path/to/llm-council
 
 #### 3.1 创建 .env 文件
 
-在项目根目录创建 `.env` 文件：
+在项目根目录创建 `.env` 文件（可以复制 `.env.example`）：
 ```bash
-touch .env
+cp .env.example .env
 ```
 
-编辑 `.env` 文件，添加你的 OpenRouter API 密钥：
+编辑 `.env` 文件，添加你的各个 API 密钥：
 ```bash
-OPENROUTER_API_KEY=sk-or-v1-your-api-key-here
+# OpenAI API Key
+OPENAI_API_KEY=sk-...
+
+# Anthropic API Key
+ANTHROPIC_API_KEY=sk-ant-...
+
+# Google AI API Key (for Gemini)
+GOOGLE_API_KEY=AIza...
 ```
 
 **获取 API 密钥：**
-1. 访问 [openrouter.ai](https://openrouter.ai/)
-2. 注册账号并登录
-3. 在设置中生成 API 密钥
-4. 购买积分或设置自动充值
+
+1. **OpenAI API 密钥**
+   - 访问：https://platform.openai.com/api-keys
+   - 登录或注册账号
+   - 创建新的 API 密钥
+   - 充值账户余额
+
+2. **Anthropic API 密钥**
+   - 访问：https://console.anthropic.com/settings/keys
+   - 登录或注册账号
+   - 生成 API 密钥
+   - 充值账户余额
+
+3. **Google AI API 密钥**
+   - 访问：https://aistudio.google.com/app/apikey
+   - 使用 Google 账号登录
+   - 创建 API 密钥（Gemini API 目前有免费额度）
 
 #### 3.2 配置模型（可选）
 
@@ -108,16 +129,23 @@ OPENROUTER_API_KEY=sk-or-v1-your-api-key-here
 
 ```python
 COUNCIL_MODELS = [
-    "openai/gpt-5.1",
-    "google/gemini-3-pro-preview",
-    "anthropic/claude-sonnet-4.5",
-    "x-ai/grok-4",
+    "openai/gpt-4o",  # OpenAI GPT-4o
+    "google/gemini-2.0-flash-exp",  # Google Gemini
+    "anthropic/claude-sonnet-4.5",  # Anthropic Claude
 ]
 
-CHAIRMAN_MODEL = "google/gemini-3-pro-preview"
+CHAIRMAN_MODEL = "google/gemini-2.0-flash-exp"
 ```
 
-**注意：** 确保你选择的模型在 OpenRouter 上可用，并且你有足够的积分。
+**可用的模型标识符格式：**
+- OpenAI: `openai/gpt-4o`, `openai/gpt-4o-mini`, `openai/gpt-4-turbo` 等
+- Anthropic: `anthropic/claude-sonnet-4.5`, `anthropic/claude-sonnet-3.5`, `anthropic/claude-opus-3` 等
+- Google: `google/gemini-2.0-flash-exp`, `google/gemini-1.5-pro`, `google/gemini-1.5-flash` 等
+
+**注意：**
+- 已移除 Grok 模型（不再使用 OpenRouter）
+- 确保你有对应提供商的 API 密钥和账户余额
+- 模型名称必须与各提供商的官方 API 文档一致
 
 ### 步骤 4: 安装项目依赖
 
@@ -234,18 +262,23 @@ pyenv install 3.11
 pyenv local 3.11
 ```
 
-### 问题 4: OpenRouter API 错误
+### 问题 4: API 调用错误
 
 **可能原因：**
-- API 密钥错误
-- 积分不足
+- API 密钥错误或缺失
+- 账户余额不足
 - 网络问题
-- 模型不可用
+- 模型名称错误或不可用
+- API 速率限制
 
 **解决方案：**
-1. 检查 `.env` 文件中的 API 密钥
-2. 登录 OpenRouter 查看余额
-3. 尝试更换模型配置
+1. 检查 `.env` 文件中的所有 API 密钥是否正确
+2. 分别登录各提供商控制台查看余额：
+   - OpenAI: https://platform.openai.com/usage
+   - Anthropic: https://console.anthropic.com/settings/plans
+   - Google AI: https://aistudio.google.com/
+3. 查看后端终端输出，确认具体是哪个 API 失败
+4. 尝试更换模型配置或移除有问题的模型
 
 ### 问题 5: 前端无法连接后端
 
@@ -275,9 +308,9 @@ uv run python -m backend.main
 llm-council/
 ├── backend/              # FastAPI 后端
 │   ├── main.py          # 主程序和 API 路由
-│   ├── config.py        # 模型配置
+│   ├── config.py        # 模型配置和 API 密钥
 │   ├── council.py       # 核心逻辑（3 个阶段）
-│   ├── openrouter.py    # OpenRouter API 客户端
+│   ├── openrouter.py    # 多提供商 API 客户端（OpenAI、Anthropic、Google）
 │   └── storage.py       # 会话存储（JSON）
 ├── frontend/            # React + Vite 前端
 │   ├── src/
@@ -288,6 +321,7 @@ llm-council/
 ├── data/                # 自动创建的数据目录
 │   └── conversations/   # 会话 JSON 文件
 ├── .env                 # API 密钥配置（需要创建）
+├── .env.example         # API 密钥配置模板
 ├── pyproject.toml       # Python 依赖
 ├── start.sh             # 启动脚本
 └── README.md            # 英文文档
@@ -297,13 +331,19 @@ llm-council/
 
 1. **并发处理**: 项目已使用异步并发查询多个 LLM，充分利用网络 IO
 2. **模型选择**: 根据需求平衡速度和质量（可以混合使用快速和高质量模型）
-3. **网络**: 确保稳定的互联网连接，OpenRouter API 可能有延迟
+   - 快速模型：`gpt-4o-mini`, `gemini-2.0-flash-exp`, `claude-haiku-3.5`
+   - 高质量模型：`gpt-4o`, `gemini-1.5-pro`, `claude-sonnet-4.5`
+3. **网络**: 确保稳定的互联网连接，各提供商 API 响应时间不同
 
 ## 安全注意事项
 
-1. **不要提交 .env 文件**到版本控制系统
-2. **定期检查** OpenRouter 账单，避免意外高额费用
-3. **API 密钥**应该保密，不要分享给他人
+1. **不要提交 .env 文件**到版本控制系统（已在 `.gitignore` 中配置）
+2. **定期检查各提供商的账单**，避免意外高额费用：
+   - OpenAI 按 token 计费，查看用量仪表盘
+   - Anthropic 按 token 计费，有消息数限制
+   - Google Gemini 有免费额度，超出后收费
+3. **API 密钥**应该保密，不要分享给他人或提交到公开仓库
+4. **设置消费限额**：在各提供商控制台设置每月消费上限，防止意外超支
 
 ## 停止服务
 

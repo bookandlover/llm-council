@@ -2,7 +2,7 @@
 
 ![llmcouncil](header.jpg)
 
-The idea of this repo is that instead of asking a question to your favorite LLM provider (e.g. OpenAI GPT 5.1, Google Gemini 3.0 Pro, Anthropic Claude Sonnet 4.5, xAI Grok 4, eg.c), you can group them into your "LLM Council". This repo is a simple, local web app that essentially looks like ChatGPT except it uses OpenRouter to send your query to multiple LLMs, it then asks them to review and rank each other's work, and finally a Chairman LLM produces the final response.
+The idea of this repo is that instead of asking a question to your favorite LLM provider (e.g. OpenAI GPT-4o, Google Gemini, Anthropic Claude), you can group them into your "LLM Council". This repo is a simple, local web app that essentially looks like ChatGPT except it directly calls multiple LLMs via their native APIs, asks them to review and rank each other's work, and finally a Chairman LLM produces the final response.
 
 In a bit more detail, here is what happens when you submit a query:
 
@@ -32,15 +32,33 @@ npm install
 cd ..
 ```
 
-### 2. Configure API Key
+### 2. Configure API Keys
 
-Create a `.env` file in the project root:
+Copy the example environment file and add your API keys:
 
 ```bash
-OPENROUTER_API_KEY=sk-or-v1-...
+cp .env.example .env
 ```
 
-Get your API key at [openrouter.ai](https://openrouter.ai/). Make sure to purchase the credits you need, or sign up for automatic top up.
+Then edit `.env` and add your API keys:
+
+```bash
+# OpenAI API Key
+OPENAI_API_KEY=sk-...
+
+# Anthropic API Key
+ANTHROPIC_API_KEY=sk-ant-...
+
+# Google AI API Key (for Gemini)
+GOOGLE_API_KEY=AIza...
+```
+
+**Get your API keys:**
+- **OpenAI**: https://platform.openai.com/api-keys
+- **Anthropic**: https://console.anthropic.com/settings/keys
+- **Google AI**: https://aistudio.google.com/app/apikey
+
+Make sure you have sufficient credits/quota with each provider.
 
 ### 3. Configure Models (Optional)
 
@@ -48,14 +66,18 @@ Edit `backend/config.py` to customize the council:
 
 ```python
 COUNCIL_MODELS = [
-    "openai/gpt-5.1",
-    "google/gemini-3-pro-preview",
-    "anthropic/claude-sonnet-4.5",
-    "x-ai/grok-4",
+    "openai/gpt-4o",  # OpenAI GPT-4o
+    "google/gemini-2.0-flash-exp",  # Google Gemini
+    "anthropic/claude-sonnet-4.5",  # Anthropic Claude
 ]
 
-CHAIRMAN_MODEL = "google/gemini-3-pro-preview"
+CHAIRMAN_MODEL = "google/gemini-2.0-flash-exp"
 ```
+
+Available model identifiers follow the format `provider/model-name`:
+- OpenAI: `openai/gpt-4o`, `openai/gpt-4o-mini`, etc.
+- Anthropic: `anthropic/claude-sonnet-4.5`, `anthropic/claude-opus-3`, etc.
+- Google: `google/gemini-2.0-flash-exp`, `google/gemini-1.5-pro`, etc.
 
 ## Running the Application
 
@@ -81,7 +103,11 @@ Then open http://localhost:5173 in your browser.
 
 ## Tech Stack
 
-- **Backend:** FastAPI (Python 3.10+), async httpx, OpenRouter API
+- **Backend:** FastAPI (Python 3.10+), async httpx, native LLM APIs (OpenAI, Anthropic, Google)
 - **Frontend:** React + Vite, react-markdown for rendering
 - **Storage:** JSON files in `data/conversations/`
 - **Package Management:** uv for Python, npm for JavaScript
+
+## Additional Resources
+
+- **macOS Deployment Guide**: See [DEPLOYMENT_MAC.md](DEPLOYMENT_MAC.md) for detailed Chinese installation instructions
