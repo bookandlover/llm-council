@@ -14,7 +14,7 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 COUNCIL_MODELS = [
     "openai/gpt-4o",  # OpenAI GPT-4o
     "google/gemini-2.0-flash-exp",  # Google Gemini
-    "anthropic/claude-sonnet-4.5",  # Anthropic Claude Sonnet 4.5
+    "anthropic/claude-sonnet-4-5",  # Anthropic Claude Sonnet 4.5 (latest)
 ]
 
 # Chairman model - synthesizes final response

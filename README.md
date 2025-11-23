@@ -68,7 +68,7 @@ Edit `backend/config.py` to customize the council:
 COUNCIL_MODELS = [
     "openai/gpt-4o",  # OpenAI GPT-4o
     "google/gemini-2.0-flash-exp",  # Google Gemini
-    "anthropic/claude-sonnet-4.5",  # Anthropic Claude Sonnet 4.5
+    "anthropic/claude-sonnet-4-5",  # Anthropic Claude Sonnet 4.5
 ]
 
 CHAIRMAN_MODEL = "google/gemini-2.0-flash-exp"
@@ -76,7 +76,7 @@ CHAIRMAN_MODEL = "google/gemini-2.0-flash-exp"
 
 Available model identifiers follow the format `provider/model-name`:
 - OpenAI: `openai/gpt-4o`, `openai/gpt-4o-mini`, etc.
-- Anthropic: `anthropic/claude-sonnet-4.5`, `anthropic/claude-opus-4`, etc.
+- Anthropic: `anthropic/claude-sonnet-4-5`, `anthropic/claude-haiku-4-5`, `anthropic/claude-opus-4-1`, etc.
 - Google: `google/gemini-2.0-flash-exp`, `google/gemini-1.5-pro`, etc.
 
 ## Running the Application
