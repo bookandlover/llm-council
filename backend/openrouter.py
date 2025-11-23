@@ -42,6 +42,13 @@ async def query_openai(
                 'reasoning_details': message.get('reasoning_details')
             }
 
+    except httpx.HTTPStatusError as e:
+        print(f"Error querying OpenAI model {model}: {e}")
+        try:
+            print(f"Response body: {e.response.text}")
+        except:
+            pass
+        return None
     except Exception as e:
         print(f"Error querying OpenAI model {model}: {e}")
         return None
@@ -99,6 +106,14 @@ async def query_anthropic(
                 'reasoning_details': None
             }
 
+    except httpx.HTTPStatusError as e:
+        print(f"Error querying Anthropic model {model}: {e}")
+        print(f"Request payload: {payload}")
+        try:
+            print(f"Response body: {e.response.text}")
+        except:
+            pass
+        return None
     except Exception as e:
         print(f"Error querying Anthropic model {model}: {e}")
         return None
@@ -161,6 +176,13 @@ async def query_google(
                 'reasoning_details': None
             }
 
+    except httpx.HTTPStatusError as e:
+        print(f"Error querying Google model {model}: {e}")
+        try:
+            print(f"Response body: {e.response.text}")
+        except:
+            pass
+        return None
     except Exception as e:
         print(f"Error querying Google model {model}: {e}")
         return None

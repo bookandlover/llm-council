@@ -131,7 +131,7 @@ GOOGLE_API_KEY=AIza...
 COUNCIL_MODELS = [
     "openai/gpt-4o",  # OpenAI GPT-4o
     "google/gemini-2.0-flash-exp",  # Google Gemini
-    "anthropic/claude-sonnet-4.5",  # Anthropic Claude
+    "anthropic/claude-3-5-sonnet-20241022",  # Anthropic Claude 3.5 Sonnet
 ]
 
 CHAIRMAN_MODEL = "google/gemini-2.0-flash-exp"
@@ -139,7 +139,7 @@ CHAIRMAN_MODEL = "google/gemini-2.0-flash-exp"
 
 **可用的模型标识符格式：**
 - OpenAI: `openai/gpt-4o`, `openai/gpt-4o-mini`, `openai/gpt-4-turbo` 等
-- Anthropic: `anthropic/claude-sonnet-4.5`, `anthropic/claude-sonnet-3.5`, `anthropic/claude-opus-3` 等
+- Anthropic: `anthropic/claude-3-5-sonnet-20241022`, `anthropic/claude-3-5-haiku-20241022`, `anthropic/claude-3-opus-20240229` 等
 - Google: `google/gemini-2.0-flash-exp`, `google/gemini-1.5-pro`, `google/gemini-1.5-flash` 等
 
 **注意：**
