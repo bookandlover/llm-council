@@ -11,14 +11,16 @@ ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 # Council members - now using native API model identifiers
-COUNCIL_MODELS = [
-    "openai/gpt-4o",  # OpenAI GPT-4o
-    "google/gemini-2.0-flash-exp",  # Google Gemini
-    "anthropic/claude-sonnet-4-5",  # Anthropic Claude Sonnet 4.5 (latest)
+    "openai/gpt-5.1",  # OpenAI GPT-4o
+    "google/gemini-3-pro-preview",  # Google Gemini
+    "anthropic/claude-sonnet-4-5",  # Anthropic Claude
 ]
 
 # Chairman model - synthesizes final response
-CHAIRMAN_MODEL = "google/gemini-2.0-flash-exp"
+CHAIRMAN_MODEL = "google/gemini-3-pro-preview"
+
+# Title generation model - fast and cheap
+TITLE_MODEL = "google/gemini-2.5-flash"
 
 # API endpoints
 OPENAI_API_URL = "https://api.openai.com/v1/chat/completions"
