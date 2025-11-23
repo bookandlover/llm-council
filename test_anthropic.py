@@ -10,10 +10,10 @@ ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 
 # Test different model names
 MODEL_NAMES_TO_TEST = [
-    "claude-sonnet-4.5",
-    "claude-3-5-sonnet-20241022",
-    "claude-3-5-sonnet-latest",
-    "claude-3-sonnet-20240229",
+    "claude-sonnet-4-5",  # Correct format (alias)
+    "claude-sonnet-4-5-20250929",  # Full version
+    "claude-sonnet-4-0",  # Legacy alias
+    "claude-3-7-sonnet-latest",  # Legacy model
 ]
 
 async def test_model(model_name: str):
